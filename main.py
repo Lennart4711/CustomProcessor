@@ -1,5 +1,3 @@
-from one_bit_register import OneBitRegister
-from random import randrange, triangular
 from data_latch import DataLatch
 from sr_latch import SrLatch
 from xor_gate import XorGate
