@@ -1,3 +1,4 @@
+from four_bit_adder import FourBitAdder
 from adder import Adder
 from dynamic_register import DynamicRegister
 from eight_bit_register import EightBitRegister
@@ -14,5 +15,5 @@ from xnor_gate import XnorGate
 from four_bit_register import FourBitRegister
 
 if __name__ == "__main__":
-    d = EightBitRegister([True, False, False, False, False,True,False,False,False,False,False,False,False])
+    d = FourBitAdder([False,True,False,True, False,False,False,True, False])
     print(d.output)
