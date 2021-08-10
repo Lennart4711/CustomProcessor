@@ -13,6 +13,11 @@ from xnor_gate import XnorGate
 from four_bit_register import FourBitRegister
 
 if __name__ == "__main__":
-    d = EightBitRegister([True,False,True,False,True])
+    d = OrGate([False,False,])
     print(d.output)
-
+    d.update([True,False])
+    print(d.output)
+    d.update([False,True])
+    print(d.output)
+    d.update([True,True])
+    print(d.output)

@@ -1,3 +1,4 @@
+from not_gate import NotGate
 from nand_gate import NandGate
 from component import Component
 
@@ -13,8 +14,8 @@ class OrGate(Component):
 
         #-----------Logic-------------#
         self.output.clear()
-        nand_left = NandGate([self.input[0],self.input[0]])
-        nand_right = NandGate([self.input[1],self.input[1]])
+        not_left = NotGate([self.input[0]])
+        not_right = NotGate([self.input[1]])
 
-        nand_exit = NandGate([nand_right.output[0], nand_left.output[0]])
+        nand_exit = NandGate([not_right.output[0], not_left.output[0]])
         self.output = nand_exit.output
