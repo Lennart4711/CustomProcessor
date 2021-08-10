@@ -14,7 +14,5 @@ from xnor_gate import XnorGate
 from four_bit_register import FourBitRegister
 
 if __name__ == "__main__":
-    d = Adder([True,False,True])
-    print(d.output)
-    d.update([True,True,True])
+    d = EightBitRegister([True, False, False, False, False,True,False,False,False,False,False,False,False])
     print(d.output)
