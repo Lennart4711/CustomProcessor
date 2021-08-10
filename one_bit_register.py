@@ -8,7 +8,7 @@ from data_latch import DataLatch
 #First is Data, second is store, third is clock
 class OneBitRegister(Component):
     def __init__(self, input_data):
-        self.INPUT_LENGTH = 3
+        self.INPUT_LENGTH = 2
         super().__init__()  
         self.data_latch = DataLatch([False,True])
         self.update(input_data)

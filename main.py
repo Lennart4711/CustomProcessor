@@ -1,4 +1,3 @@
-
 from one_bit_register import OneBitRegister
 from random import randrange, triangular
 from data_latch import DataLatch
@@ -11,11 +10,16 @@ from not_gate import NotGate
 from and_gate import AndGate
 from nor_gate import NorGate
 from xnor_gate import XnorGate
-import random
 
 if __name__ == "__main__":
-    pass
-
+    d = DataLatch([False,False])
+    print(d.output)
+    d.update([True,True])   
+    print(d.output)
+    d.update([False,False])   
+    print(d.output)
+    d.update([False,True])    
+    print(d.output)
 
 
 

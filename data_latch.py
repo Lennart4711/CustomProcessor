@@ -3,6 +3,9 @@ from and_gate import AndGate
 from component import Component
 from sr_latch import SrLatch
 
+#because this simulation does not use clocks, there is no need to build a one bit register.
+#This DataLatch can store one bit of data and should be used as such.
+#Four- or more bits registers should be build with a datalatch
 class DataLatch(Component):
     def __init__(self, input_data):
         self.INPUT_LENGTH = 2
