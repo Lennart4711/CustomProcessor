@@ -1,3 +1,4 @@
+from adder import Adder
 from dynamic_register import DynamicRegister
 from eight_bit_register import EightBitRegister
 from data_latch import DataLatch
@@ -13,11 +14,7 @@ from xnor_gate import XnorGate
 from four_bit_register import FourBitRegister
 
 if __name__ == "__main__":
-    d = OrGate([False,False,])
+    d = Adder([True,False,True])
     print(d.output)
-    d.update([True,False])
-    print(d.output)
-    d.update([False,True])
-    print(d.output)
-    d.update([True,True])
+    d.update([True,True,True])
     print(d.output)
