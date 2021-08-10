@@ -13,8 +13,7 @@ class Component:
         #add missing as false or remove last if to many list entrys
         if(len(input_data)>self.INPUT_LENGTH):
             input_data = input_data[:len(input_data)-(len(input_data)-self.INPUT_LENGTH)]
-            print("del length")
         elif(len(input_data)<self.INPUT_LENGTH):
-            for i in range(len(input_data), self.INPUT_LENGTH):
+            for _ in range(len(input_data), self.INPUT_LENGTH):
                 input_data.append(False)
         self.input = input_data
