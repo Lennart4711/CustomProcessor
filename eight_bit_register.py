@@ -1,6 +1,5 @@
 from dynamic_register import DynamicRegister
 from component import Component
-from data_latch import DataLatch
 
 class EightBitRegister(Component):
     def __init__(self, input_data):

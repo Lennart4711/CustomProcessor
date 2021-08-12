@@ -1,3 +1,5 @@
+from alu import Alu
+from eight_bit_adder import EightBitAdder
 from four_bit_adder import FourBitAdder
 from adder import Adder
 from dynamic_register import DynamicRegister
@@ -14,6 +16,19 @@ from nor_gate import NorGate
 from xnor_gate import XnorGate
 from four_bit_register import FourBitRegister
 
+def stringToArray(string):
+    bits = []
+    for char in string:
+        if char == '1':
+            bits.append(True)
+        elif char == '0':
+            bits.append(False)
+        else: 
+            print("This is not a quantum computer")
+    return bits
+
 if __name__ == "__main__":
-    d = FourBitAdder([False,True,False,True, False,False,False,True, False])
+    d = Alu(stringToArray("0111 0011 0"))
     print(d.output)
+
+#TODO: norm the direction of output in register, adder and alu

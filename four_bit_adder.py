@@ -1,6 +1,3 @@
-from or_gate import OrGate
-from and_gate import AndGate
-from xor_gate import XorGate
 from component import Component
 from adder import Adder
 
