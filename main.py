@@ -1,3 +1,4 @@
+from dynamic_adder import DynamicAdder
 from alu import Alu
 from eight_bit_adder import EightBitAdder
 from four_bit_adder import FourBitAdder
@@ -23,12 +24,15 @@ def stringToArray(string):
             bits.append(True)
         elif char == '0':
             bits.append(False)
-        else: 
-            print("This is not a quantum computer")
+        else:
+            pass 
+            #print("This is not a quantum computer")
     return bits
 
 if __name__ == "__main__":
-    d = Alu(stringToArray("0111 0011 0"))
-    print(d.output)
 
-#TODO: norm the direction of output in register, adder and alu
+    adder = Alu(4,stringToArray("1000 0111 0"))
+    print(-8-(-5))
+    print(adder.output)
+
+
