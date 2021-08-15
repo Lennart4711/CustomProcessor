@@ -7,6 +7,9 @@ from and_gate import AndGate
 
 
 class Alu(Component):
+    #last is subtract signal, 
+    #first n is first number, 
+    #second n is second number (n is equal to bits)
     def __init__(self,bits, input_data):
         super().__init__()
         self.bits = bits
@@ -26,9 +29,6 @@ class Alu(Component):
         xor_out = []
         for gate in self.xor_gates:
             xor_out.append(gate.output[0])
-        print("x:",xor_out)
-        
-        print("i:",self.input[:self.bits])
+
         self.adder = DynamicAdder(self.bits,self.input[:self.bits]+xor_out+[self.input[self.bits]])
-        print(self.adder.input)
         self.output = self.adder.output

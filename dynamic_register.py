@@ -2,11 +2,10 @@ from component import Component
 from data_latch import DataLatch
 
 class DynamicRegister(Component):
-    #input at [0] is wether to store or nor
+    #input at [0] is wether to store or not
     def __init__(self, length,input_data):
         self.INPUT_LENGTH = length+1
         super().__init__()
-        self.output = [False]*length
         self.update(input_data)
 
     

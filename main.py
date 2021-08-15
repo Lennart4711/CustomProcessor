@@ -1,23 +1,25 @@
-from dynamic_adder import DynamicAdder
-from alu import Alu
-from eight_bit_adder import EightBitAdder
-from four_bit_adder import FourBitAdder
 from adder import Adder
-from dynamic_register import DynamicRegister
-from eight_bit_register import EightBitRegister
-from data_latch import DataLatch
-from sr_latch import SrLatch
-from xor_gate import XorGate
-from or_gate import OrGate
-from nand_gate import NandGate
-from buffer import Buffer
-from not_gate import NotGate
+from alu import Alu
 from and_gate import AndGate
-from nor_gate import NorGate
-from xnor_gate import XnorGate
+from buffer import Buffer
+from data_latch import DataLatch
+from dynamic_adder import DynamicAdder
+from dynamic_register import DynamicRegister
+from eight_bit_adder import EightBitAdder
+from eight_bit_register import EightBitRegister
+from four_bit_adder import FourBitAdder
+from four_bit_and_gate import FourBitAndGate
 from four_bit_register import FourBitRegister
+from nand_gate import NandGate
+from nor_gate import NorGate
+from not_gate import NotGate
+from or_gate import OrGate
+from sr_latch import SrLatch
+from xnor_gate import XnorGate
+from xor_gate import XorGate
 
-def stringToArray(string):
+
+def parse_bits(string):
     bits = []
     for char in string:
         if char == '1':
@@ -31,8 +33,14 @@ def stringToArray(string):
 
 if __name__ == "__main__":
 
-    adder = Alu(4,stringToArray("1000 0111 0"))
-    print(-8-(-5))
-    print(adder.output)
+    architecture = 8 #bits
+    a_register = DynamicRegister(architecture, parse_bits("1 00000101"))
+    b_register = DynamicRegister(architecture, parse_bits("1 00000001"))
+    print(a_register.output)
+    print(b_register.output)
+    alu = Alu(architecture, a_register.output+b_register.output+[False])
+    print(alu.output)
 
+    a = FourBitAndGate(parse_bits("1110"))
+    print(a.output)
 
