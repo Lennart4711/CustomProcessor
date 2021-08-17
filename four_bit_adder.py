@@ -1,7 +1,5 @@
 from dynamic_adder import DynamicAdder
 from component import Component
-from adder import Adder
-
 
 class FourBitAdder(Component):
     def __init__(self, input_data):

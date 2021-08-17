@@ -1,3 +1,4 @@
+from program_counter import ProgramCounter
 from ram import RAM
 from adder import Adder
 from alu import Alu
@@ -39,13 +40,42 @@ def binary_to_decimal(binary):
             decimal = decimal*2 + int(digit) 
         return decimal -1
 
-
+def array_to_decimal(self,address):
+        out = ""
+        for i in address:
+            if i:
+                out += "1"
+            else: out += "0"
+        return self.binary_to_decimal(out)
 
 
 if __name__ == "__main__":
 
     architecture = 8 #bits
+
     bus = Bus(architecture,[])
+    bus.update(parse_bits("11111111"))
+
+    pc = ProgramCounter()
+    pc.jump(parse_bits("11011011"))
+    pc.counter_out(bus)
+    
+    print(bus.output)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     #a_register = DynamicRegister(architecture, parse_bits("1 00000101"))
     #b_register = DynamicRegister(architecture, parse_bits("1 00000001"))
@@ -55,7 +85,7 @@ if __name__ == "__main__":
     #alu = Alu(architecture, a_register.output+b_register.output+[False])
     #alu.sum_out(bus, a_register,b_register,[False])
 
-    bus.update(parse_bits("11111111"))
+    """
 
 
     ram = RAM([])
@@ -65,7 +95,7 @@ if __name__ == "__main__":
     ram.ram_in(bus)
     ram.ram_out(bus)
     print("bus:",bus.output)
-    print(ram.registers[254].output)
+    print(ram.registers[254].output)"""
 
 
     
