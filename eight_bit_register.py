@@ -13,3 +13,9 @@ class EightBitRegister(Component):
         #-----------Logic-------------#
         self.register.update(input_data)
         self.output = self.register.output
+
+    def register_out(self, bus):
+        bus.update(self.output)
+    
+    def register_in(self, bus):
+        self.update([True]+bus.output)

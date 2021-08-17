@@ -25,10 +25,15 @@ class Alu(Component):
         for i in range(self.bits):
             self.xor_gates.append(XorGate([self.input[self.bits+i],self.input[self.bits*2]]))
         
-
         xor_out = []
         for gate in self.xor_gates:
             xor_out.append(gate.output[0])
-
+        #first half, second half through xor_gates, carry bit
         self.adder = DynamicAdder(self.bits,self.input[:self.bits]+xor_out+[self.input[self.bits]])
         self.output = self.adder.output
+
+    def sum_out(self,bus,reg_a, reg_b,carry):
+        self.update(reg_a.output+reg_b.output+carry)
+        bus.update(self.output)
+
+            

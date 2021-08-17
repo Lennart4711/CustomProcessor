@@ -17,3 +17,9 @@ class DynamicRegister(Component):
         for i in range(self.INPUT_LENGTH-1):
             self.registers.append(DataLatch([self.input[i+1],self.input[0]]))
             self.output.append(self.registers[i].output[0])
+
+    def register_out(self, bus):
+        bus.update(self.output)
+    
+    def register_in(self, bus):
+        self.update([True]+bus.output)

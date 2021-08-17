@@ -13,10 +13,9 @@ class FourBitAndGate(Component):
 
         #-----------Logic-------------#
         self.output.clear()
-        print(self.input)
+
         a = AndGate([self.input[0],self.input[1]])
         b = AndGate([self.input[2],self.input[3]])
-        print(a.output,b.output)
 
         out = AndGate(a.output + b.output)
         self.output = out.output

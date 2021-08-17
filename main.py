@@ -17,6 +17,7 @@ from or_gate import OrGate
 from sr_latch import SrLatch
 from xnor_gate import XnorGate
 from xor_gate import XorGate
+from bus import Bus
 
 
 def parse_bits(string):
@@ -34,13 +35,16 @@ def parse_bits(string):
 if __name__ == "__main__":
 
     architecture = 8 #bits
+    bus = Bus(architecture,[])
     a_register = DynamicRegister(architecture, parse_bits("1 00000101"))
     b_register = DynamicRegister(architecture, parse_bits("1 00000001"))
-    print(a_register.output)
-    print(b_register.output)
+    print("rega:",a_register.output)
+    print("regb:",b_register.output)
+
     alu = Alu(architecture, a_register.output+b_register.output+[False])
-    print(alu.output)
+    alu.sum_out(bus, a_register,b_register,[False])
 
-    a = FourBitAndGate(parse_bits("1110"))
-    print(a.output)
+    print(bus.output)
+  
 
+    
