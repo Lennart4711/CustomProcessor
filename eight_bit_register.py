@@ -4,6 +4,7 @@ from component import Component
 class EightBitRegister(Component):
     def __init__(self, input_data):
         super().__init__()
+        self.INPUT_LENGTH = 9
         self.register = DynamicRegister(8,input_data)
         self.output = self.register.output
 

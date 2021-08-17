@@ -1,3 +1,4 @@
+from ram import RAM
 from adder import Adder
 from alu import Alu
 from and_gate import AndGate
@@ -32,19 +33,39 @@ def parse_bits(string):
             #print("This is not a quantum computer")
     return bits
 
+def binary_to_decimal(binary):
+        decimal = 0 
+        for digit in binary: 
+            decimal = decimal*2 + int(digit) 
+        return decimal -1
+
+
+
+
 if __name__ == "__main__":
 
     architecture = 8 #bits
     bus = Bus(architecture,[])
-    a_register = DynamicRegister(architecture, parse_bits("1 00000101"))
-    b_register = DynamicRegister(architecture, parse_bits("1 00000001"))
-    print("rega:",a_register.output)
-    print("regb:",b_register.output)
 
-    alu = Alu(architecture, a_register.output+b_register.output+[False])
-    alu.sum_out(bus, a_register,b_register,[False])
+    #a_register = DynamicRegister(architecture, parse_bits("1 00000101"))
+    #b_register = DynamicRegister(architecture, parse_bits("1 00000001"))
+    #print("rega:",a_register.output)
+    #print("regb:",b_register.output)
 
-    print(bus.output)
-  
+    #alu = Alu(architecture, a_register.output+b_register.output+[False])
+    #alu.sum_out(bus, a_register,b_register,[False])
+
+    bus.update(parse_bits("11111111"))
+
+
+    ram = RAM([])
+    print("bus:",bus.output)
+    ram.address_in(bus)
+    bus.update(parse_bits("00000001"))
+    ram.ram_in(bus)
+    ram.ram_out(bus)
+    print("bus:",bus.output)
+    print(ram.registers[254].output)
+
 
     
