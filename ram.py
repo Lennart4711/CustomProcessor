@@ -1,3 +1,4 @@
+from dynamic_register import DynamicRegister
 from component import Component
 from eight_bit_register import EightBitRegister
 
@@ -6,7 +7,7 @@ class RAM(Component):
         self.INPUT_LENGTH = 2
         super().__init__()
         self.update(input_data)
-        self.registers = [EightBitRegister([]) for _ in range(255)]
+        self.registers = [DynamicRegister(12,[]) for _ in range(256)]
         self.address_memory = EightBitRegister([])
 
         
@@ -21,7 +22,7 @@ class RAM(Component):
         decimal = 0 
         for digit in binary: 
             decimal = decimal*2 + int(digit) 
-        return decimal - 1
+        return decimal 
 
     def array_to_decimal(self,address):
         out = ""
@@ -37,7 +38,7 @@ class RAM(Component):
 
     def ram_out(self, bus):
         address = self.array_to_decimal(self.address_memory.output)
-        bus.update(self.registers[address].output)
+        bus.output = self.registers[address].output
     
     
     def address_in(self, bus):

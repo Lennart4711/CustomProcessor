@@ -22,7 +22,6 @@ class ProgramCounter(Component):
     def count_enable(self):
         self.adder.update(self.register.output+[False,False,False,False,False,False,False,True])
         self.register.update([True]+self.adder.output)
-        print("reg",self.register.output)
 
     def jump(self, address):
         self.register.update([True]+address)

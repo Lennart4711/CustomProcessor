@@ -38,64 +38,87 @@ def binary_to_decimal(binary):
         decimal = 0 
         for digit in binary: 
             decimal = decimal*2 + int(digit) 
-        return decimal -1
+        return decimal 
 
-def array_to_decimal(self,address):
+def array_to_decimal(address):
         out = ""
         for i in address:
             if i:
                 out += "1"
             else: out += "0"
-        return self.binary_to_decimal(out)
+        return binary_to_decimal(out)
 
+def next_instruction(x):
+    if(x == 0):
+        print("NOP")
+    elif(x == 1):
+        bus.update(instructions_register.output[4:])
+        ram.address_in(bus)
+        ram.ram_out(bus)
+        a_register.register_in(bus)
+        print("LDA", a_register.output)
 
+    elif(x == 2):
+        bus.update(instructions_register.output[4:])
+        ram.address_in(bus)
+        ram.ram_out(bus)
+        b_register.register_in(bus)
+        print("LDB", b_register.output)
+        alu.sum_out(bus, a_register,b_register,[False])
+        a_register.register_in(bus)
+        print("ADD", a_register.output)
+    elif(x == 3):
+        print("SUB")
+    elif(x == 4):
+        print("STA")
+    elif(x == 5):
+        print("LDI")
+    elif(x == 6):
+        print("JMP")
+    elif(x == 7):
+        print("JC") 
+    elif(x == 8):
+        print("JZ")       
+    elif(x == 14):
+        print("OUT")
+    elif(x == 15):
+        print("HLT")
+    
+
+    
 if __name__ == "__main__":
-
-    architecture = 8 #bits
-
-    bus = Bus(architecture,[])
+    #--------components---------#
+    bus = Bus(8,[])
     bus.update(parse_bits("11111111"))
 
     pc = ProgramCounter()
-    pc.jump(parse_bits("11011011"))
-    pc.counter_out(bus)
-    
-    print(bus.output)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #a_register = DynamicRegister(architecture, parse_bits("1 00000101"))
-    #b_register = DynamicRegister(architecture, parse_bits("1 00000001"))
-    #print("rega:",a_register.output)
-    #print("regb:",b_register.output)
-
-    #alu = Alu(architecture, a_register.output+b_register.output+[False])
-    #alu.sum_out(bus, a_register,b_register,[False])
-
-    """
-
 
     ram = RAM([])
-    print("bus:",bus.output)
-    ram.address_in(bus)
-    bus.update(parse_bits("00000001"))
-    ram.ram_in(bus)
-    ram.ram_out(bus)
-    print("bus:",bus.output)
-    print(ram.registers[254].output)"""
+    ram.registers[0].update(parse_bits("1 0001 11111110"))
+    ram.registers[1].update(parse_bits("1 0010 11111111"))
+    ram.registers[254].update(parse_bits("1 0001 00000101"))
+    ram.registers[255].update(parse_bits("1 0010 00000001"))
+    
+    
+    instructions_register = DynamicRegister(12,[])
 
+    alu = Alu(8,[])
 
+    a_register = DynamicRegister(8, parse_bits("1 00000000"))
+    b_register = DynamicRegister(8, parse_bits("1 00000000"))
+
+    for i in ram.registers:
+        print(i.output)
+
+    #fetch instructions from memory
+    for i in range(2):
+        pc.counter_out(bus)
+        ram.address_in(bus)
+        ram.ram_out(bus)
+        instructions_register.update([True]+bus.output)
+        pc.count_enable()
+        
+        next_instruction(array_to_decimal(instructions_register.output[:4]))
+
+    
     

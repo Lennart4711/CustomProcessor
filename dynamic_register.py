@@ -22,4 +22,4 @@ class DynamicRegister(Component):
         bus.update(self.output)
     
     def register_in(self, bus):
-        self.update([True]+bus.output)
+        self.update([True]+bus.output[-8:])
