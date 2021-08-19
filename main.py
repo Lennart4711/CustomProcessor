@@ -56,21 +56,27 @@ def next_instruction(x):
         ram.address_in(bus)
         ram.ram_out(bus)
         a_register.register_in(bus)
-        print("LDA", a_register.output)
 
     elif(x == 2):
+
         bus.update(instructions_register.output[4:])
         ram.address_in(bus)
         ram.ram_out(bus)
         b_register.register_in(bus)
-        print("LDB", b_register.output)
         alu.sum_out(bus, a_register,b_register,[False])
         a_register.register_in(bus)
-        print("ADD", a_register.output)
     elif(x == 3):
-        print("SUB")
+        bus.update(instructions_register.output[4:])
+        ram.address_in(bus)
+        ram.ram_out(bus)
+        b_register.register_in(bus)
+        alu.sum_out(bus, a_register,b_register,[True])
+        a_register.register_in(bus)
     elif(x == 4):
-        print("STA")
+        bus.update(instructions_register.output[4:])
+        ram.address_in(bus)
+        a_register.register_out(bus)
+        ram.ram_in(bus)
     elif(x == 5):
         print("LDI")
     elif(x == 6):
@@ -82,7 +88,7 @@ def next_instruction(x):
     elif(x == 14):
         print("OUT")
     elif(x == 15):
-        print("HLT")
+        exit()
     
 
     
@@ -99,7 +105,6 @@ if __name__ == "__main__":
     ram.registers[254].update(parse_bits("1 0001 00000101"))
     ram.registers[255].update(parse_bits("1 0010 00000001"))
     
-    
     instructions_register = DynamicRegister(12,[])
 
     alu = Alu(8,[])
@@ -107,18 +112,27 @@ if __name__ == "__main__":
     a_register = DynamicRegister(8, parse_bits("1 00000000"))
     b_register = DynamicRegister(8, parse_bits("1 00000000"))
 
-    for i in ram.registers:
-        print(i.output)
+    
 
     #fetch instructions from memory
-    for i in range(2):
-        pc.counter_out(bus)
-        ram.address_in(bus)
-        ram.ram_out(bus)
-        instructions_register.update([True]+bus.output)
-        pc.count_enable()
-        
-        next_instruction(array_to_decimal(instructions_register.output[:4]))
+    pc.counter_out(bus)
+    ram.address_in(bus)
+    ram.ram_out(bus)
+    instructions_register.update([True]+bus.output)
+    pc.count_enable()
+    next_instruction(array_to_decimal(instructions_register.output[:4]))
 
-    
-    
+    print(ram.registers[254].output)
+
+    print(pc.register.output)
+    pc.counter_out(bus)
+    print(pc.register.output)
+
+    print(ram.registers[254].output)
+
+
+    ram.address_in(bus)
+    ram.ram_out(bus)
+    instructions_register.update([True]+bus.output)
+    pc.count_enable()
+    next_instruction(array_to_decimal(instructions_register.output[:4]))

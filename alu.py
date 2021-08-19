@@ -1,3 +1,4 @@
+from data_latch import DataLatch
 from dynamic_adder import DynamicAdder
 from component import Component
 from four_bit_adder import FourBitAdder
@@ -29,8 +30,12 @@ class Alu(Component):
         for gate in self.xor_gates:
             xor_out.append(gate.output[0])
         #first half, second half through xor_gates, carry bit
-        self.adder = DynamicAdder(self.bits,self.input[:self.bits]+xor_out+[self.input[self.bits]])
-        self.output = self.adder.output
+        self.adder = DynamicAdder(self.bits,self.input[:self.bits]+xor_out+[self.input[self.bits*2]])
+        self.output = self.adder.output[:-1]
+        self.carry_flag = [self.adder.output[8]]
+        self.zero_flag = [not any(self.adder.output)]
+        
+
 
     def sum_out(self,bus,reg_a, reg_b,carry):
         self.update(reg_a.output+reg_b.output+carry)
