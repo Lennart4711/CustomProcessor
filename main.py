@@ -50,15 +50,16 @@ def array_to_decimal(address):
 
 def next_instruction(x):
     if(x == 0):
-        print("NOP")
+        #NOP
+        pass
     elif(x == 1):
+        #LDA
         bus.update(instructions_register.output[4:])
         ram.address_in(bus)
         ram.ram_out(bus)
         a_register.register_in(bus)
-
     elif(x == 2):
-
+        #ADD
         bus.update(instructions_register.output[4:])
         ram.address_in(bus)
         ram.ram_out(bus)
@@ -66,6 +67,7 @@ def next_instruction(x):
         alu.sum_out(bus, a_register,b_register,[False])
         a_register.register_in(bus)
     elif(x == 3):
+        #SUB
         bus.update(instructions_register.output[4:])
         ram.address_in(bus)
         ram.ram_out(bus)
@@ -73,14 +75,19 @@ def next_instruction(x):
         alu.sum_out(bus, a_register,b_register,[True])
         a_register.register_in(bus)
     elif(x == 4):
+        #STA
         bus.update(instructions_register.output[4:])
         ram.address_in(bus)
         a_register.register_out(bus)
         ram.ram_in(bus)
     elif(x == 5):
-        print("LDI")
+        #LDI
+        bus.update(instructions_register.output[4:])
+        a_register.register_in(bus)
     elif(x == 6):
-        print("JMP")
+        #JMP
+        bus.update(instructions_register.output[4:])
+        pc.jump(bus.output)
     elif(x == 7):
         print("JC") 
     elif(x == 8):
@@ -100,11 +107,17 @@ if __name__ == "__main__":
     pc = ProgramCounter()
 
     ram = RAM([])
-    ram.registers[0].update(parse_bits("1 0001 11111110"))
-    ram.registers[1].update(parse_bits("1 0010 11111111"))
-    ram.registers[254].update(parse_bits("1 0001 00000101"))
-    ram.registers[255].update(parse_bits("1 0010 00000001"))
+    ram.registers[0].update(parse_bits("1 0001 11111111"))#LDA 255
+    ram.registers[1].update(parse_bits("1 0010 11111110"))#ADD 254
+    ram.registers[2].update(parse_bits("1 0100 11111111"))#STA 255
+    ram.registers[3].update(parse_bits("1 0110 00000000"))#STA 255
+    #expected: 2 in ram at address 252 --> working
+
+    ram.registers[254].update(parse_bits("1 0000 00000001"))
+    ram.registers[255].update(parse_bits("1 0000 00000000"))
     
+    #ram.registers[0].update(parse_bits("1 0101 11110001"))#LDI 11110001
+
     instructions_register = DynamicRegister(12,[])
 
     alu = Alu(8,[])
@@ -113,26 +126,13 @@ if __name__ == "__main__":
     b_register = DynamicRegister(8, parse_bits("1 00000000"))
 
     
-
+    i = 0
+    while True:
     #fetch instructions from memory
-    pc.counter_out(bus)
-    ram.address_in(bus)
-    ram.ram_out(bus)
-    instructions_register.update([True]+bus.output)
-    pc.count_enable()
-    next_instruction(array_to_decimal(instructions_register.output[:4]))
-
-    print(ram.registers[254].output)
-
-    print(pc.register.output)
-    pc.counter_out(bus)
-    print(pc.register.output)
-
-    print(ram.registers[254].output)
-
-
-    ram.address_in(bus)
-    ram.ram_out(bus)
-    instructions_register.update([True]+bus.output)
-    pc.count_enable()
-    next_instruction(array_to_decimal(instructions_register.output[:4]))
+        pc.counter_out(bus)
+        ram.address_in(bus)
+        ram.ram_out(bus)
+        instructions_register.update([True]+bus.output)
+        pc.count_enable()
+        next_instruction(array_to_decimal(instructions_register.output[:4]))
+        print(a_register.output)

@@ -34,11 +34,11 @@ class RAM(Component):
     
     def ram_in(self, bus):
         address = self.array_to_decimal(self.address_memory.output)
-        self.registers[address].update([True]+bus.output)
+        self.registers[address].update([True]+[False]*4+bus.output[-8:])
 
     def ram_out(self, bus):
         address = self.array_to_decimal(self.address_memory.output)
-        bus.output = self.registers[address].output
+        bus.output = self.registers[address].output.copy()
     
     
     def address_in(self, bus):
