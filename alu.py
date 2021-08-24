@@ -32,8 +32,8 @@ class Alu(Component):
         #first half, second half through xor_gates, carry bit
         self.adder = DynamicAdder(self.bits,self.input[:self.bits]+xor_out+[self.input[self.bits*2]])
         self.output = self.adder.output[:-1]
-        self.carry_flag = [self.adder.output[8]]
-        self.zero_flag = [not any(self.adder.output)]
+        self.carry_flag = self.adder.output[8]
+        self.zero_flag = not any(self.adder.output)
         
 
 

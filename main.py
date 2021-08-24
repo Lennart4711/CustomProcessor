@@ -20,6 +20,7 @@ from sr_latch import SrLatch
 from xnor_gate import XnorGate
 from xor_gate import XorGate
 from bus import Bus
+import time
 
 
 def parse_bits(string):
@@ -89,35 +90,50 @@ def next_instruction(x):
         bus.update(instructions_register.output[4:])
         pc.jump(bus.output)
     elif(x == 7):
-        print("JC") 
+        #JC
+        if(alu.carry_flag):
+            bus.update(instructions_register.output[4:])
+            pc.jump(bus.output)
     elif(x == 8):
-        print("JZ")       
+        #JZ
+        if(alu.zero_flag):
+            bus.update(instructions_register.output[4:])
+            pc.jump(bus.output)
     elif(x == 14):
-        print("OUT")
+        #OUT
+        print(a_register.output)
     elif(x == 15):
+        #HLT
+        print(time.process_time() - start)
         exit()
-    
+        
 
     
 if __name__ == "__main__":
     #--------components---------#
+    start = time.process_time()
     bus = Bus(8,[])
     bus.update(parse_bits("11111111"))
 
     pc = ProgramCounter()
 
     ram = RAM([])
+    #this program adds 1 to value at 255 and stores it back in there
+    #Then it checks if the number doesnt fit in 8bits
+    #If that is the case, it halts
+    #Else it adds 1 again
     ram.registers[0].update(parse_bits("1 0001 11111111"))#LDA 255
     ram.registers[1].update(parse_bits("1 0010 11111110"))#ADD 254
-    ram.registers[2].update(parse_bits("1 0100 11111111"))#STA 255
-    ram.registers[3].update(parse_bits("1 0110 00000000"))#STA 255
-    #expected: 2 in ram at address 252 --> working
+    ram.registers[2].update(parse_bits("1 1110 00000000"))#OUT A-Registers
+    ram.registers[3].update(parse_bits("1 0100 11111111"))#STA 255
+    ram.registers[4].update(parse_bits("1 0111 00000110"))#JMC 6
+    ram.registers[5].update(parse_bits("1 0110 00000000"))#JMP 0
+    ram.registers[6].update(parse_bits("1 1111 00000000"))#HLT 0
+    
 
     ram.registers[254].update(parse_bits("1 0000 00000001"))
     ram.registers[255].update(parse_bits("1 0000 00000000"))
     
-    #ram.registers[0].update(parse_bits("1 0101 11110001"))#LDI 11110001
-
     instructions_register = DynamicRegister(12,[])
 
     alu = Alu(8,[])
@@ -126,13 +142,15 @@ if __name__ == "__main__":
     b_register = DynamicRegister(8, parse_bits("1 00000000"))
 
     
-    i = 0
     while True:
-    #fetch instructions from memory
+        #fetch instructions from memory
         pc.counter_out(bus)
         ram.address_in(bus)
         ram.ram_out(bus)
         instructions_register.update([True]+bus.output)
         pc.count_enable()
+        #microinstruction
         next_instruction(array_to_decimal(instructions_register.output[:4]))
-        print(a_register.output)
+
+
+#Unoptimized code takes 3.6 seconds
