@@ -21,33 +21,10 @@ from xnor_gate import XnorGate
 from xor_gate import XorGate
 from bus import Bus
 import time
+from helper import *
 
 
-def parse_bits(string):
-    bits = []
-    for char in string:
-        if char == '1':
-            bits.append(True)
-        elif char == '0':
-            bits.append(False)
-        else:
-            pass 
-            #print("This is not a quantum computer")
-    return bits
 
-def binary_to_decimal(binary):
-        decimal = 0 
-        for digit in binary: 
-            decimal = decimal*2 + int(digit) 
-        return decimal 
-
-def array_to_decimal(address):
-        out = ""
-        for i in address:
-            if i:
-                out += "1"
-            else: out += "0"
-        return binary_to_decimal(out)
 
 def next_instruction(x):
     if(x == 0):
@@ -107,17 +84,7 @@ def next_instruction(x):
         print(time.process_time() - start)
         exit()
         
-
-    
-if __name__ == "__main__":
-    #--------components---------#
-    start = time.process_time()
-    bus = Bus(8,[])
-    bus.update(parse_bits("11111111"))
-
-    pc = ProgramCounter()
-
-    ram = RAM([])
+def count_up(ram):
     #this program adds 1 to value at 255 and stores it back in there
     #Then it checks if the number doesnt fit in 8bits
     #If that is the case, it halts
@@ -130,9 +97,19 @@ if __name__ == "__main__":
     ram.registers[5].update(parse_bits("1 0110 00000000"))#JMP 0
     ram.registers[6].update(parse_bits("1 1111 00000000"))#HLT 0
     
-
     ram.registers[254].update(parse_bits("1 0000 00000001"))
     ram.registers[255].update(parse_bits("1 0000 00000000"))
+    
+if __name__ == "__main__":
+    #--------components---------#
+    start = time.process_time()
+    bus = Bus(8,[])
+    bus.update(parse_bits("11111111"))
+
+    pc = ProgramCounter()
+
+    ram = RAM([])
+    count_up(ram)
     
     instructions_register = DynamicRegister(12,[])
 
