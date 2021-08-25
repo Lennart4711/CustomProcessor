@@ -11,7 +11,6 @@ class Bus(Component):
         self.clear_input(input_data)
 
         #-----------Logic-------------#
-        self.output.clear()
         self.output = self.input
 
 

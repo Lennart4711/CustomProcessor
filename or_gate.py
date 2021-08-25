@@ -13,7 +13,6 @@ class OrGate(Component):
         self.clear_input(input_data)
 
         #-----------Logic-------------#
-        self.output.clear()
         not_left = NotGate([self.input[0]])
         not_right = NotGate([self.input[1]])
 

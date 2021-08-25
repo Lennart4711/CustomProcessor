@@ -13,7 +13,6 @@ class XorGate(Component):
         self.clear_input(input_data)
 
         #-----------Logic-------------#
-        self.output.clear()
 
         nand_gate = NandGate([self.input[0],self.input[1]])
         or_gate = OrGate([self.input[0],self.input[1]])

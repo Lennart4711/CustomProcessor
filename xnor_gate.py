@@ -12,8 +12,6 @@ class XnorGate(Component):
         self.clear_input(input_data)
 
         #-----------Logic-------------#
-        self.output.clear()
-
         xor_gate = XorGate(self.input)
         not_gate = NotGate(xor_gate.output)
         self.output = not_gate.output

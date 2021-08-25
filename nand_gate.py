@@ -15,7 +15,6 @@ class NandGate(Component):
         self.clear_input(input_data)
 
         #-----------Logic-------------#
-        self.output.clear()
         and_gate = AndGate(self.input)
         inverter = NotGate(and_gate.output)
         self.output = inverter.output

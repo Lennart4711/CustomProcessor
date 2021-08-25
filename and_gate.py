@@ -12,8 +12,5 @@ class AndGate(Component):
         self.clear_input(input_data)
 
         #-----------Logic-------------#
-        self.output.clear()
-        if all(self.input):
-            self.output.append(True)
-        else: self.output.append(False)
-
+        self.output = [all(self.input)]
+        

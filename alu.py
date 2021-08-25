@@ -21,17 +21,18 @@ class Alu(Component):
         self.clear_input(input_data)
 
         #-----------Logic--------#
-        self.output.clear()
+        #subtract signal
         self.xor_gates = []
         for i in range(self.bits):
             self.xor_gates.append(XorGate([self.input[self.bits+i],self.input[self.bits*2]]))
-        
         xor_out = []
         for gate in self.xor_gates:
             xor_out.append(gate.output[0])
+
         #first half, second half through xor_gates, carry bit
         self.adder = DynamicAdder(self.bits,self.input[:self.bits]+xor_out+[self.input[self.bits*2]])
         self.output = self.adder.output[:-1]
+
         self.carry_flag = self.adder.output[8]
         self.zero_flag = not any(self.adder.output)
         

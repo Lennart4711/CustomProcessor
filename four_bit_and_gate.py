@@ -12,8 +12,6 @@ class FourBitAndGate(Component):
         self.clear_input(input_data)
 
         #-----------Logic-------------#
-        self.output.clear()
-
         a = AndGate([self.input[0],self.input[1]])
         b = AndGate([self.input[2],self.input[3]])
 

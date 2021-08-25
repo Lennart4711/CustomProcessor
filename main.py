@@ -65,17 +65,17 @@ def next_instruction(x):
     elif(x == 6):
         #JMP
         bus.update(instructions_register.output[4:])
-        pc.jump(bus.output)
+        pc.jump(bus)
     elif(x == 7):
         #JC
         if(alu.carry_flag):
             bus.update(instructions_register.output[4:])
-            pc.jump(bus.output)
+            pc.jump(bus)
     elif(x == 8):
         #JZ
         if(alu.zero_flag):
             bus.update(instructions_register.output[4:])
-            pc.jump(bus.output)
+            pc.jump(bus)
     elif(x == 14):
         #OUT
         print(a_register.output)

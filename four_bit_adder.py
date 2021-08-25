@@ -12,6 +12,5 @@ class FourBitAdder(Component):
         self.clear_input(input_data)
 
         #-----------Logic--------#
-        self.output.clear()
-        self.adder.update(input_data)
+        self.adder.update(self.input)
         self.output = self.adder.output

@@ -11,6 +11,5 @@ class Buffer(Component):
         self.clear_input(input_data)
 
         #-----------Logic--------#
-        self.output.clear()
-        self.output.append(self.input[0])
+        self.output = [self.input[0]]
         

@@ -5,9 +5,6 @@ def parse_bits(string):
             bits.append(True)
         elif char == '0':
             bits.append(False)
-        else:
-            pass 
-            #print("This is not a quantum computer")
     return bits
 
 def binary_to_decimal(binary):

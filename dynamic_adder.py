@@ -10,7 +10,7 @@ class DynamicAdder(Component):
         
         self.adders = []
         for _ in range(bits):
-            self.adders.append(Adder([False,False,False]))
+            self.adders.append(Adder([]))
         self.update(input_data)
 
 
@@ -21,6 +21,7 @@ class DynamicAdder(Component):
         #-----------Logic--------#
         self.output.clear()
 
+        #first one has to get carry from input
         self.adders[0].update([self.input[self.bits-1],self.input[self.bits*2-1],self.input[self.bits*2]])
         self.output.append(self.adders[0].output[0])
 
@@ -30,6 +31,7 @@ class DynamicAdder(Component):
             self.output.append(self.adders[i].output[0])
 
         self.output.reverse()
+        #carry bit
         self.output.append(self.adders[self.bits-1].output[1])
         
 

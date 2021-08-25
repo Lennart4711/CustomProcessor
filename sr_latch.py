@@ -22,18 +22,8 @@ class SrLatch(Component):
         self.clear_input(input_data)
         #-----------Logic-------------#
         
-        #self.metastable()
         self.not_gate.update([self.input[1]])
         self.or_gate.update([self.and_gate.output[0],self.input[0]])
         self.and_gate.update([self.or_gate.output[0],self.not_gate.output[0]])
         self.or_gate.update([self.and_gate.output[0],self.input[0]])
         self.output = self.and_gate.output
-
-    #pobably not nescry cuase d latch doesnt allow 1,1 as input to set/reset
-    #metastability accurs in hardware when there is a "racing condition" in  the loop
-    def metastable(self):
-        if(all(self.input)):
-            if(bool(random.getrandbits(1))):
-                self.input[1] = False
-            else:
-                self.input[0] = False
