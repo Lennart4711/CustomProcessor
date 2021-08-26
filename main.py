@@ -99,6 +99,12 @@ def count_up(ram):
     
     ram.registers[254].update(parse_bits("1 0000 00000001"))
     ram.registers[255].update(parse_bits("1 0000 00000000"))
+
+def multiply(ram)
+    ram.registers[254].update(parse_bits("1 0000 00000001"))
+    ram.registers[255].update(parse_bits("1 0000 00000010"))
+    
+
     
 if __name__ == "__main__":
     #--------components---------#
