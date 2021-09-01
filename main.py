@@ -136,7 +136,6 @@ def halt_if_zero(ram):
 if __name__ == "__main__":
     #--------components---------#
     bus = Bus(8,[])
-    bus.update(parse_bits("11111111"))
 
     pc = ProgramCounter()
 
