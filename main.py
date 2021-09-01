@@ -102,7 +102,6 @@ def count_up(ram):
 def multiply(ram):
     ram.registers[0].update(parse_bits("1 0001 11111111"))#lda f2
     ram.registers[1].update(parse_bits("1 0100 11111101"))#sta turn
-    ram.registers[2].update(parse_bits("1 0001 11111101"))#lda turn
     ram.registers[3].update(parse_bits("1 0011 11111011"))#sub one
     ram.registers[4].update(parse_bits("1 1000 00001100"))#jz hlt
     ram.registers[5].update(parse_bits("1 0001 11111100"))#lda out
