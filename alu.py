@@ -15,7 +15,6 @@ class Alu(Component):
         super().__init__()
         self.bits = bits
         self.INPUT_LENGTH = bits*2+1
-        self.update(input_data)
 
     def update(self, input_data):
         self.clear_input(input_data)
@@ -34,7 +33,7 @@ class Alu(Component):
         self.output = self.adder.output[:-1]
 
         self.carry_flag = self.adder.output[8]
-        self.zero_flag = not any(self.adder.output)
+        self.zero_flag = not any(self.adder.output[:-1])
         
 
 
