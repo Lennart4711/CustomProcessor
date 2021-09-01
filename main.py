@@ -23,8 +23,6 @@ from bus import Bus
 from helper import *
 
 
-
-
 def next_instruction(x):
     if(x == 0):
         #NOP
@@ -119,18 +117,8 @@ def multiply(ram):
     ram.registers[251].update(parse_bits("1 0000 00000001"))#one
     ram.registers[252].update(parse_bits("1 0000 00000000"))#out
     ram.registers[253].update(parse_bits("1 0000 00000000"))#turn
-    ram.registers[254].update(parse_bits("1 0000 11111111"))#F1
-    ram.registers[255].update(parse_bits("1 0000 00000101"))#F2 #enter one more
-    
-def halt_if_zero(ram):
-    ram.registers[0].update(parse_bits("1 0001 11111111"))#lda 1
-    ram.registers[1].update(parse_bits("1 0011 11111110"))#sub 1
-    ram.registers[2].update(parse_bits("1 1000 00000001"))#jz hlt
-    ram.registers[3].update(parse_bits("1 0110 00000000"))#one
-    ram.registers[4].update(parse_bits("1 1111 00000000"))#one
-
     ram.registers[254].update(parse_bits("1 0000 00000001"))#F1
-    ram.registers[255].update(parse_bits("1 0000 00000001"))#F2
+    ram.registers[255].update(parse_bits("1 0000 00000101"))#F2 #enter one more
 
     
 if __name__ == "__main__":
@@ -141,7 +129,6 @@ if __name__ == "__main__":
 
     ram = RAM([])
     multiply(ram)
-    #halt_if_zero(ram)
     
     instructions_register = DynamicRegister(12,[])
 
@@ -162,4 +149,3 @@ if __name__ == "__main__":
         #microinstruction
         next_instruction(array_to_decimal(instructions_register.output[:4]))
 
-#Unoptimized code takes 3.6 seconds
