@@ -11,7 +11,7 @@ class Alu(Component):
     #last is subtract signal, 
     #first n is first number, 
     #second n is second number (n is equal to bits)
-    def __init__(self,bits, input_data):
+    def __init__(self,bits):
         super().__init__()
         self.bits = bits
         self.INPUT_LENGTH = bits*2+1
