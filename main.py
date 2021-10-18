@@ -62,23 +62,22 @@ def next_instruction(x):
         draw_ram()
         print("     IO MI")
         tick()
-
+        
         ram.ram_out(bus)
-        draw_ram(True)
         draw_bus()
+        draw_ram(True)
         b_register.register_in(bus)
         draw_b_register()
-        draw_alu()
         print("     RO BI")
         tick()
         draw_ram()
 
         alu.sum_out(bus, a_register,b_register,[False])
-        draw_alu(True)
         draw_bus()
+        draw_alu(True)
         a_register.register_in(bus)
         draw_a_register()
-        alu.update(a_register.output+b_register.output+[False])
+        #alu.update(a_register.output+b_register.output+[False])
         print("     AO AI")
         tick()
         draw_alu()
@@ -93,8 +92,9 @@ def next_instruction(x):
         draw_ram()
         print("     IO MI")
         tick()
-
+        
         ram.ram_out(bus)
+        draw_bus()
         draw_ram(True)
         b_register.register_in(bus)
         draw_b_register()
@@ -107,7 +107,7 @@ def next_instruction(x):
         draw_alu(True)
         a_register.register_in(bus)
         draw_a_register()
-        alu.update(a_register.output+b_register.output+[False])
+        #alu.update(a_register.output+b_register.output+[False])
         print("     AO AI")
         tick()
         draw_alu()
@@ -149,7 +149,6 @@ def next_instruction(x):
     elif(x == 7):
         #JC
         print("JC")
-
         if(alu.carry_flag):
             bus.update(instructions_register.output[4:])
             draw_bus()
@@ -161,6 +160,7 @@ def next_instruction(x):
     elif(x == 8):
         #JZ
         print("JZ")
+        
         if(alu.zero_flag):
             bus.update(instructions_register.output[4:])
             draw_bus()
@@ -172,52 +172,78 @@ def next_instruction(x):
     elif(x == 14):
         #OUT
         print("OUT")
-        print("    ",a_register.output)
+        print("    ",array_to_decimal(a_register.output))
     elif(x == 15):
         #HLT
         print("HLT")
         exit()
-        
-def count_up(ram):
-    #this program adds 1 to value at 255 and stores it back in there
-    #Then it checks if the number doesnt fit in 8bits
-    #If that is the case, it halts
-    #Else it adds 1 again
-    ram.registers[0].update(parse_bits("1 0001 11111111"))#LDA 255
-    ram.registers[1].update(parse_bits("1 0010 11111110"))#ADD 254
-    ram.registers[2].update(parse_bits("1 1110 00000000"))#OUT A-Registers
-    ram.registers[3].update(parse_bits("1 0100 11111111"))#STA 255
-    ram.registers[4].update(parse_bits("1 0111 00000110"))#JMC 6
-    ram.registers[5].update(parse_bits("1 0110 00000000"))#JMP 0
-    ram.registers[6].update(parse_bits("1 1111 00000000"))#HLT 0
-    
-    ram.registers[254].update(parse_bits("1 0000 00000001"))
-    ram.registers[255].update(parse_bits("1 0000 00000000"))
+ 
 
 def multiply(ram):
-    ram.registers[0].update(parse_bits("1 0001 11111111"))#lda f2
-    ram.registers[1].update(parse_bits("1 0100 11111101"))#sta turn
-    ram.registers[2].update(parse_bits("1 0011 11111011"))#sub one
-    ram.registers[3].update(parse_bits("1 1000 00001100"))#jz .end
-    ram.registers[4].update(parse_bits("1 0001 11111100"))#lda out
-    ram.registers[5].update(parse_bits("1 0010 11111110"))#add f1
-    ram.registers[6].update(parse_bits("1 0100 11111100"))#sta out
-    ram.registers[7].update(parse_bits("1 0001 11111101"))#lda turn
-    ram.registers[8].update(parse_bits("1 0011 11111011"))#sub one
-    ram.registers[9].update(parse_bits("1 0100 11111101"))#sta turn
-    ram.registers[10].update(parse_bits("1 0110 00000010"))#j
-    #.end 
-    ram.registers[11].update(parse_bits("1 0001 11111100"))#lda out
-    ram.registers[12].update(parse_bits("1 1110 00000000"))#out
-    ram.registers[13].update(parse_bits("1 1111 00000000"))#hlt
+    ram.registers[0].update(parse_bits("1 0001 00001101"))#lda A
+    ram.registers[1].update(parse_bits("1 0011 00001111"))#sub 1
+    ram.registers[2].update(parse_bits("1 0111 00000110"))#jc 6
+    ram.registers[3].update(parse_bits("1 0001 00001100"))#lda 0
+    ram.registers[4].update(parse_bits("1 1110 00000000"))#out
+    ram.registers[5].update(parse_bits("1 1111 00000000"))#hlt
+    ram.registers[6].update(parse_bits("1 0100 00001101"))#sta A
+    ram.registers[7].update(parse_bits("1 0001 00001110"))#lda B
+    ram.registers[8].update(parse_bits("1 0010 00001100"))#add 0
+    ram.registers[9].update(parse_bits("1 0100 00001100"))#sta 0
+    ram.registers[10].update(parse_bits("1 0110 00000000"))#j 0
 
-    ram.registers[250].update(parse_bits("1 0000 00000001"))#zero
-    ram.registers[251].update(parse_bits("1 0000 00000001"))#one
-    ram.registers[252].update(parse_bits("1 0000 00000000"))#out
-    ram.registers[253].update(parse_bits("1 0000 00000000"))#turn
-    ram.registers[254].update(parse_bits("1 0000 10011010"))#F1
-    ram.registers[255].update(parse_bits("1 0000 10101001"))#F2
+    ram.registers[12].update(parse_bits("1 0000 00000000"))#0
+    ram.registers[13].update(parse_bits("1 0000 00001101"))#A 13
+    ram.registers[14].update(parse_bits("1 0000 00001001"))#B 9
+    ram.registers[15].update(parse_bits("1 0000 00000001"))#1
+    """
+        #include <stdio.h>
+        #define ADD(a, b, carry) a = a + b; carry = !!(a & 0x100); a &= 0xff
+        #define SUB(a, b, carry) a = a + ((0xff ^ b) + 1); carry = !!(a & 0x100); a &= 0xff
 
+        int a;           // 8-bit register A
+        int carry;       // carry bit
+
+        int M12 =  0;    // 8-bit accumulator
+        int M13 = 20;    // input 1
+        int M14 =  3;    // input 2
+        int M15 =  1;    // 8-bit constant 1
+
+        while (1) {
+            // LDA [13]
+            a = M13;
+
+            // SUB [15]
+            SUB(a, M15, carry);
+
+            // JC
+            if (!carry) {
+                // LDA [12]
+                a = M12;
+                // OUT
+                printf("OUT: %d\n", a);
+
+                // HLT
+                break;
+            }
+
+            // STA [13]
+            M13 = a;
+
+            // LDA [14]
+            a = M14;
+
+            // ADD [12]
+            ADD(a, M12, carry);
+
+            // STA [12]
+            M12 = a;
+
+            // JMP
+        }
+        
+        return 0;
+    """
 
 myfont = pygame.font.SysFont("monospace", 15)
 text_color = (0,0,0)
@@ -300,7 +326,7 @@ def draw_ram(out=False):
         win.blit(label, (100, 150))        
         for i in range(8):
             pygame.draw.circle(win, (ram.address_memory.output[i]*253,0,0), (107+i*12,140),5)
-            pygame.draw.circle(win, (ram.registers[array_to_decimal(ram.address_memory.output)].output[i]*253,0,0), (107+i*12,290),5)
+            pygame.draw.circle(win, (ram.registers[array_to_decimal(ram.address_memory.output)].output[i+4]*253,0,0), (107+i*12,290),5)
             pygame.draw.line(win, (ram.address_memory.output[i]*253,0,0),(107+i*12,180),(107+i*12,249))
             #pygame.draw.line(win, (ram.registers[array_to_decimal(ram.address_memory.output)].output[4+i]*253,0,0), (250,260+i*7),(400+(i+4)*12,260+i*7))
             pygame.draw.line(win,(ram.registers[array_to_decimal(ram.address_memory.output)].output[4+i]*253,0,0),(250,260+i*7),(300,260+i*7))
@@ -327,10 +353,11 @@ def draw_program_counter(out=False):
 #TODO ram input output check
 
 
-TICK = True
-def tick(x = 0.1):
+TICK = False
+def tick(x = 0.05):
+    return
     pygame.display.flip()
-    #time.sleep(x)
+    time.sleep(x)
     if(TICK):
         x = True
         while(x):
@@ -392,14 +419,8 @@ if __name__ == "__main__":
         #draw instrctions register
         tick()
         draw_ram()
-
         next_instruction(array_to_decimal(instructions_register.output[:4]))
         pygame.display.flip()
-        x = True
-        # while(x):
-        #     for event in pygame.event.get():
-        #         if event.type == pygame.KEYDOWN:
-        #             x = False
-        #time.sleep(0.2)
-        pygame.display.flip()
+
+    
 
