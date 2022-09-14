@@ -7,10 +7,8 @@ class DynamicAdder(Component):
         self.INPUT_LENGTH = bits * 2 + 1
         self.bits = bits
         super().__init__()
-        
-        self.adders = []
-        for _ in range(bits):
-            self.adders.append(Adder([]))
+
+        self.adders = [Adder([]) for _ in range(bits)]
         self.update(input_data)
 
 
