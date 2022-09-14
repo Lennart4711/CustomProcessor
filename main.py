@@ -62,7 +62,7 @@ def next_instruction(x):
         draw_ram()
         print("     IO MI")
         tick()
-        
+
         ram.ram_out(bus)
         draw_bus()
         draw_ram(True)
@@ -92,7 +92,7 @@ def next_instruction(x):
         draw_ram()
         print("     IO MI")
         tick()
-        
+
         ram.ram_out(bus)
         draw_bus()
         draw_ram(True)
@@ -111,7 +111,7 @@ def next_instruction(x):
         print("     AO AI")
         tick()
         draw_alu()
-        
+
     elif(x == 4):
         #STA
         print("STA")
@@ -160,7 +160,7 @@ def next_instruction(x):
     elif(x == 8):
         #JZ
         print("JZ")
-        
+
         if(alu.zero_flag):
             bus.update(instructions_register.output[4:])
             draw_bus()
@@ -318,25 +318,35 @@ def draw_bus():
             
 
 def draw_ram(out=False):
-        pygame.draw.rect(win, (200,200,200),(100,110,150,70))
-        pygame.draw.rect(win, (200,200,200),(100,250,150,70))
-        label = myfont.render("Memory Address", 1, text_color)
-        win.blit(label, (100, 110))
-        label = myfont.render("Dec:"+str(array_to_decimal(ram.address_memory.output)), 1, text_color)
-        win.blit(label, (100, 150))        
-        for i in range(8):
-            pygame.draw.circle(win, (ram.address_memory.output[i]*253,0,0), (107+i*12,140),5)
-            pygame.draw.circle(win, (ram.registers[array_to_decimal(ram.address_memory.output)].output[i+4]*253,0,0), (107+i*12,290),5)
-            pygame.draw.line(win, (ram.address_memory.output[i]*253,0,0),(107+i*12,180),(107+i*12,249))
-            #pygame.draw.line(win, (ram.registers[array_to_decimal(ram.address_memory.output)].output[4+i]*253,0,0), (250,260+i*7),(400+(i+4)*12,260+i*7))
-            pygame.draw.line(win,(ram.registers[array_to_decimal(ram.address_memory.output)].output[4+i]*253,0,0),(250,260+i*7),(300,260+i*7))
-            pygame.draw.line(win,(out*ram.registers[array_to_decimal(ram.address_memory.output)].output[4+i]*253*out,0,0),(320,260+i*7),(400+(i+4)*12,260+i*7))
-            pygame.draw.rect(win,(200,200,200),(300,250,20,70))
-            pygame.draw.circle(win, (out*ram.registers[array_to_decimal(ram.address_memory.output)].output[4+i]*253,0,0),(400+(i+4)*12,260+i*7),2)
-        label = myfont.render("Data", 1, text_color)
-        win.blit(label, (100, 250))
-        label = myfont.render("Dec:"+str(array_to_decimal(ram.registers[array_to_decimal(ram.address_memory.output)].output)), 1, text_color)
-        win.blit(label, (100, 300))
+    pygame.draw.rect(win, (200,200,200),(100,110,150,70))
+    pygame.draw.rect(win, (200,200,200),(100,250,150,70))
+    label = myfont.render("Memory Address", 1, text_color)
+    win.blit(label, (100, 110))
+    label = myfont.render(
+        f"Dec:{str(array_to_decimal(ram.address_memory.output))}",
+        1,
+        text_color,
+    )
+
+    win.blit(label, (100, 150))
+    for i in range(8):
+        pygame.draw.circle(win, (ram.address_memory.output[i]*253,0,0), (107+i*12,140),5)
+        pygame.draw.circle(win, (ram.registers[array_to_decimal(ram.address_memory.output)].output[i+4]*253,0,0), (107+i*12,290),5)
+        pygame.draw.line(win, (ram.address_memory.output[i]*253,0,0),(107+i*12,180),(107+i*12,249))
+        #pygame.draw.line(win, (ram.registers[array_to_decimal(ram.address_memory.output)].output[4+i]*253,0,0), (250,260+i*7),(400+(i+4)*12,260+i*7))
+        pygame.draw.line(win,(ram.registers[array_to_decimal(ram.address_memory.output)].output[4+i]*253,0,0),(250,260+i*7),(300,260+i*7))
+        pygame.draw.line(win,(out*ram.registers[array_to_decimal(ram.address_memory.output)].output[4+i]*253*out,0,0),(320,260+i*7),(400+(i+4)*12,260+i*7))
+        pygame.draw.rect(win,(200,200,200),(300,250,20,70))
+        pygame.draw.circle(win, (out*ram.registers[array_to_decimal(ram.address_memory.output)].output[4+i]*253,0,0),(400+(i+4)*12,260+i*7),2)
+    label = myfont.render("Data", 1, text_color)
+    win.blit(label, (100, 250))
+    label = myfont.render(
+        f"Dec:{str(array_to_decimal(ram.registers[array_to_decimal(ram.address_memory.output)].output))}",
+        1,
+        text_color,
+    )
+
+    win.blit(label, (100, 300))
 
 def draw_program_counter(out=False):
     pygame.draw.rect(win, (200,200,200),(100,850,150,70))
@@ -348,7 +358,10 @@ def draw_program_counter(out=False):
         pygame.draw.circle(win, (out*pc.counter.output[i]*253,0,0),(400+(i+4)*12,860+i*7),2)
     label = myfont.render("Program Counter", 1, text_color)
     win.blit(label, (100, 850))
-    label = myfont.render("Dec:"+str(array_to_decimal(pc.counter.output)), 1, text_color)
+    label = myfont.render(
+        f"Dec:{str(array_to_decimal(pc.counter.output))}", 1, text_color
+    )
+
     win.blit(label, (100, 900))
 #TODO ram input output check
 
@@ -356,14 +369,6 @@ def draw_program_counter(out=False):
 TICK = False
 def tick(x = 0.05):
     return
-    pygame.display.flip()
-    time.sleep(x)
-    if(TICK):
-        x = True
-        while(x):
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    x = False
 
 
 if __name__ == "__main__":

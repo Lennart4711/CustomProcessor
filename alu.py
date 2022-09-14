@@ -21,13 +21,12 @@ class Alu(Component):
 
         #-----------Logic--------#
         #subtract signal
-        self.xor_gates = []
-        for i in range(self.bits):
-            self.xor_gates.append(XorGate([self.input[self.bits+i],self.input[self.bits*2]]))
-        xor_out = []
-        for gate in self.xor_gates:
-            xor_out.append(gate.output[0])
+        self.xor_gates = [
+            XorGate([self.input[self.bits + i], self.input[self.bits * 2]])
+            for i in range(self.bits)
+        ]
 
+        xor_out = [gate.output[0] for gate in self.xor_gates]
         #first half, second half through xor_gates, carry bit
         self.adder = DynamicAdder(self.bits,self.input[:self.bits]+xor_out+[self.input[self.bits*2]])
         self.output = self.adder.output[:-1]

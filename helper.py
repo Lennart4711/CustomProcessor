@@ -14,9 +14,5 @@ def binary_to_decimal(binary):
         return decimal 
 
 def array_to_decimal(address):
-        out = ""
-        for i in address:
-            if i:
-                out += "1"
-            else: out += "0"
-        return binary_to_decimal(out)
+    out = "".join("1" if i else "0" for i in address)
+    return binary_to_decimal(out)
